@@ -5,9 +5,7 @@ const Register = ({ setToken }) => {
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // call some function send it the username and password
-    // we just created and then that function will take that
-    // information and create a new user in the backend.
+
     const token = await registerUser(username, password);
 
     localStorage.setItem("token", token);

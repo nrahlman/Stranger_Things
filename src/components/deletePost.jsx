@@ -1,36 +1,20 @@
-import React, { useState } from 'react';
-const BASE_URL = "https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/posts";
-const DeletePost = ({ token }) => {
-  const [postId, setPostId] = useState('');
-  const deletePost = async (postId, token) => {
-    try {
-      const response = await fetch(`${BASE_URL}/posts/${postId}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const result = await response.json();
-      console.log(result);
-      return result;
-    } catch (err) {
-      console.error(err);
+import React from 'react';
+import { deletePost } from '../api/post';
+
+function DeletePost({ postId, token }) {
+  const handleDelete = async () => {
+    const result = await deletePost(postId, token);
+    if (result.success) {
+      alert('Post deleted successfully.');
+      window.location.reload();
+    } else {
+      alert('Failed to delete the post.');
     }
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    deletePost(postId, token);
-  }
+  };
+
   return (
-    <div className="delete-post">
-      <h2>Delete a post</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Post ID:</label>
-        <input type="text" value={postId} onChange={(e) => setPostId(e.target.value)} required />
-        <button type="submit">Delete Post</button>
-      </form>
-    </div>
+    <button onClick={handleDelete}>Delete Post</button>
   );
-};
+}
+
 export default DeletePost;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MakePost from './MakePost';
-import EditPost from './EditPost';
 import DeletePost from './deletePost';
+import UpdatePost from './UpdatePost';
 
 const BASE_URL = "https://strangers-things.herokuapp.com/api/2303-FTB-MT-WEB-FT/posts";
 
@@ -15,6 +15,7 @@ const fetchPosts = async () => {
     console.error(err);
   }
 };
+
 const PostList = ({ token, user }) => {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -38,6 +39,17 @@ const PostList = ({ token, user }) => {
     setSelectedPost(null);
   };
 
+  const onPostUpdated = () => {
+    closeEditForm();
+    // Fetch posts again to refresh the list
+    const fetchData = async () => {
+      const result = await fetchPosts();
+      if (result.success) {
+        setPosts(result.data.posts);
+      }
+    };
+    fetchData();
+  };
   return (
     <div className="post-list">
       <MakePost token={token} />
@@ -54,27 +66,19 @@ const PostList = ({ token, user }) => {
             <>
               <button onClick={() => handleEdit(post)}>Edit Post</button>
               <DeletePost postId={post._id} token={token} />
-              <div className="messages">
-                <h4>Messages:</h4>
-                {post.messages.length > 0 ? (
-                  post.messages.map(message => (
-                    <div key={message._id} className="message">
-                      <p>From: {message.fromUser.username}</p>
-                      <p>Content: {message.content}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No messages yet.</p>
-                )}
-              </div>
             </>
           )}
         </div>
       ))}
       {selectedPost && (
-        <div className="edit-post-modal">
+        <div className="update-post-modal">
           <button onClick={closeEditForm}>Close</button>
-          <EditPost postId={selectedPost._id} token={token} currentPost={selectedPost} />
+          <UpdatePost
+            postId={selectedPost._id}
+            token={token}
+            currentPost={selectedPost}
+            onPostUpdated={onPostUpdated}
+          />
         </div>
       )}
     </div>

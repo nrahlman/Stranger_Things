@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import PostHost from './PostHost';
+import MakePost from './MakePost';
 import EditPost from './EditPost';
 import DeletePost from './deletePost';
 
-const BASE_URL = "https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/posts";
+const BASE_URL = "https://strangers-things.herokuapp.com/api/2303-FTB-MT-WEB-FT/posts";
 
 const fetchPosts = async () => {
   try {
@@ -15,7 +15,6 @@ const fetchPosts = async () => {
     console.error(err);
   }
 };
-
 const PostList = ({ token, user }) => {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -41,7 +40,7 @@ const PostList = ({ token, user }) => {
 
   return (
     <div className="post-list">
-      <PostHost token={token} />
+      <MakePost token={token} />
       {posts.map(post => (
         <div key={post._id} className="post">
           <h3>{post.title}</h3>

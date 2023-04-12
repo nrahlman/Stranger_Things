@@ -15,14 +15,22 @@ export const registerUser = async (username, password) => {
         },
       }),
     });
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error.message || 'Something went wrong');
+    }
+
     const {
       data: { token },
-    } = await response.json();
-
+    } = result;
+    localStorage.setItem("token", token);
     return token;
   } catch (error) {
     console.error(error);
+    throw error;
   }
+
 };
 
 export const loginUser = async (username, password) => {
@@ -39,16 +47,22 @@ export const loginUser = async (username, password) => {
         },
       }),
     });
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error.message || 'Something went wrong');
+    }
+
     const {
       data: { token },
-    } = await response.json();
-
+    } = result;
+    localStorage.setItem("token", token);
     return token;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
-
 export const fetchMe = async (token) => {
   try {
     const response = await fetch(`${BASE_URL}/users/me`, {
@@ -57,7 +71,13 @@ export const fetchMe = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error.message || 'Something went wrong');
+    }
+
     console.log(result);
     return result;
   } catch (error) {

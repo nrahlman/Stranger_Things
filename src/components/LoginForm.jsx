@@ -1,14 +1,13 @@
 import "../App.css";
 import { useState, useEffect } from "react";
-import Register from "./Register";
-import Login from "./login";
-import Logout from "./Log-out";
-import { fetchMe, logout } from "../api/auth";
+import { fetchMe, logout, loginUser, registerUser } from "../api/auth";
+import PostList from './postList';
 
 function LoginForm() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState({});
-  console.log(user, "User data");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const getMe = async () => {
@@ -24,14 +23,86 @@ function LoginForm() {
     logout(setToken, setUser);
   };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const token = await registerUser(username, password);
+    localStorage.setItem("token", token);
+    setToken(token);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const token = await loginUser(username, password);
+    localStorage.setItem("token", token);
+    setToken(token);
+  };
+
   return (
     <div className="App">
-      <h1>{user?.username}</h1>
-      <h2>Register</h2>
-      <Register setToken={setToken} />
-      <h2>Login</h2>
-      <Login setToken={setToken} />
-      {token && <Logout logout={handleLogout} />}
+      {!token ? (
+        <div className="main">
+          <input type="checkbox" id="chk" aria-hidden="true" />
+          <div className="login">
+            <form className="form" onSubmit={handleLogin}>
+              <label htmlFor="chk" aria-hidden="true">
+                Log in
+              </label>
+              <input
+                className="input"
+                type="text"
+                name="username"
+                placeholder="Username"
+                required=""
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+              />
+              <input
+                className="input"
+                type="password"
+                name="pswd"
+                placeholder="Password"
+                required=""
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              <button type="submit">Log in</button>
+            </form>
+          </div>
+
+          <div className="register">
+            <form className="form" onSubmit={handleRegister}>
+              <label htmlFor="chk" aria-hidden="true">
+                Register
+              </label>
+              <input
+                className="input"
+                type="text"
+                name="username"
+                placeholder="Username"
+                required=""
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+              />
+              <input
+                className="input"
+                type="password"
+                name="pswd"
+                placeholder="Password"
+                required=""
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              <button type="submit">Register</button>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <>
+          <h1>Welcome, {user?.username}</h1>
+          <button onClick={handleLogout}>Logout</button>
+          <PostList token={token} user={user} />
+        </>
+      )}
     </div>
   );
 }

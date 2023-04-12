@@ -5,60 +5,57 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-.App {
-  text-align: center;
+.post-list {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #f0f0f0;
-  font-family: 'Arial', sans-serif;
+  gap: 1rem;
 }
 
+.post {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+  margin-bottom: 1rem;
+}
+
+.post h3 {
+  margin-top: 0;
+}
+
+.edit-post-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-post-modal > button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+/* login form */
 .main {
   position: relative;
   display: flex;
   flex-direction: column;
   background-color: #240046;
-  max-height: 420px;
+  max-height: 420px; /* Increased height */
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 7px 7px 10px 3px #24004628;
+  margin: 0 auto; /* Center the main div */
 }
 
 .form {
@@ -66,7 +63,9 @@
   flex-direction: column;
   gap: 14px;
   padding: 24px;
+  align-items: center; /* Added to center the elements */
 }
+
 
 #chk {
   display: none;
@@ -79,7 +78,7 @@
 }
 
 .login label {
-  margin: 25% 0 5%;
+  margin: 15% 0 5%; /* Adjusted margin to center the login label */
 }
 
 label {
@@ -102,7 +101,7 @@ label {
   border-radius: 4px;
 }
 
-
+/*Register*/
 .register {
   background: #eee;
   border-radius: 60% / 10%;
@@ -127,8 +126,8 @@ label {
 #chk:checked ~ .login label {
   transform: scale(.6);
   margin: 5% 0 5%;
-}
-
+}   
+/*Button*/
 .form button {
   width: 85%;
   height: 40px;
@@ -145,4 +144,7 @@ label {
 
 .form button:hover {
   background-color: #6d44b8;
+}
+.post-host{
+  font-size: small;
 }

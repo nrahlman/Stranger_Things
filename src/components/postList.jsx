@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MakePost from './MakePost';
 import DeletePost from './deletePost';
 import UpdatePost from './UpdatePost';
+import SendMessage from './SendMessage';
 
 const BASE_URL = "https://strangers-things.herokuapp.com/api/2303-FTB-MT-WEB-FT/posts";
 
@@ -18,7 +19,6 @@ const fetchPosts = async () => {
 
 const PostList = ({ token, user }) => {
   const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,25 +31,6 @@ const PostList = ({ token, user }) => {
     fetchData();
   }, []);
 
-  const handleEdit = (post) => {
-    setSelectedPost(post);
-  };
-
-  const closeEditForm = () => {
-    setSelectedPost(null);
-  };
-
-  const onPostUpdated = () => {
-    closeEditForm();
-    // Fetch posts again to refresh the list
-    const fetchData = async () => {
-      const result = await fetchPosts();
-      if (result.success) {
-        setPosts(result.data.posts);
-      }
-    };
-    fetchData();
-  };
   return (
     <div className="post-list">
       <MakePost token={token} />
@@ -64,23 +45,15 @@ const PostList = ({ token, user }) => {
           <p>Active: {post.active ? 'Yes' : 'No'}</p>
           {user._id === post.author._id && (
             <>
-              <button onClick={() => handleEdit(post)}>Edit Post</button>
+              <UpdatePost post={post} token={token} />
               <DeletePost postId={post._id} token={token} />
             </>
           )}
+          {user._id !== post.author._id && (
+            <SendMessage postId={post._id} token={token} />
+          )}
         </div>
       ))}
-      {selectedPost && (
-        <div className="update-post-modal">
-          <button onClick={closeEditForm}>Close</button>
-          <UpdatePost
-            postId={selectedPost._id}
-            token={token}
-            currentPost={selectedPost}
-            onPostUpdated={onPostUpdated}
-          />
-        </div>
-      )}
     </div>
   );
 };

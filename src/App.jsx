@@ -1,5 +1,7 @@
 import "./App.css";
-import LoginForm from "./components/LoginForm";
+import RRoutes from "./components/Routes";
+import React from "react";
+import NavBar from "./components/NavBar";
 
 
 
@@ -7,7 +9,8 @@ function App() {
 
   return (
     <div>
-      <LoginForm/>
+      <NavBar/>
+      <RRoutes/>
     </div>
   
   );

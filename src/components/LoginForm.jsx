@@ -1,7 +1,7 @@
 import "../App.css";
 import { useState, useEffect } from "react";
 import { fetchMe, logout, loginUser, registerUser } from "../api/auth";
-import PostList from './postList';
+import PostList from './PostList';
 
 function LoginForm() {
   const [token, setToken] = useState(localStorage.getItem("token"));

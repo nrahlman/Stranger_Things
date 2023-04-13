@@ -100,7 +100,6 @@ function LoginForm() {
         <>
           <h1>Welcome, {user?.username}</h1>
           <button onClick={handleLogout}>Logout</button>
-          <PostList token={token} user={user} />
         </>
       )}
     </div>

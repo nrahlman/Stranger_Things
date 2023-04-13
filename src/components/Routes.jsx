@@ -6,12 +6,13 @@ import Profile from "./Profile";
 
 
 
+
 const RRoutes = () => {
     return (
         <div>
             <Routes>
                 <Route path="/users/login" element={<LoginForm />}></Route>
-                <Route path="/users/posts" element={<PostList/>}></Route>
+                <Route path="/users/posts" element={<PostList token={token} user={user} />}></Route>
                 <Route path="/users/me" element={<Profile/>}></Route>
             </Routes>
         </div>

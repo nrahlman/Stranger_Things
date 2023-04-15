@@ -1,0 +1,51 @@
+.makepost {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .makepost h2 {
+    margin-bottom: 20px;
+  }
+  
+  .makepost form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .makepost label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .makepost input,
+  .makepost textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .makepost textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  .makepost button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    border-radius: 4px;
+  }
+  
+  .makepost button:hover {
+    background-color: #45a049;
+  }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { updatePost } from '../api/post';
 
-const UpdatePost = ({ postId, token, currentPost, onPostUpdated }) => {
+const UpdatePost = ({ postId, token, currentPost, index, onPostUpdated }) => {
   const [title, setTitle] = useState(currentPost.title);
   const [description, setDescription] = useState(currentPost.description);
   const [price, setPrice] = useState(currentPost.price);
@@ -11,7 +11,7 @@ const UpdatePost = ({ postId, token, currentPost, onPostUpdated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updatePost(postId, token, title, description, price, location, willDeliver);
-    onPostUpdated();
+    onPostUpdated(index);
   };
 
   return (

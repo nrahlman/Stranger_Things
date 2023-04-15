@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import MakePost from './MakePost';
-import DeletePost from './deletePost';
-import UpdatePost from './UpdatePost';
-import SendMessage from './SendMessage';
+import { fetchPosts } from '../api/post';
+import { Link, useNavigate } from 'react-router-dom';
+import "../components-css/Postlist.css";
 
-const BASE_URL = "https://strangers-things.herokuapp.com/api/2303-FTB-MT-WEB-FT/posts";
-const fetchPosts = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}`);
-
-    const result = await response.json();
-    return result;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const PostList = ({ token, user }) => {
+const Posts = ({ token, user }) => {
   const [posts, setPosts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchType, setSearchType] = useState('title');
+  const [willDeliver, setWillDeliver] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,44 +22,88 @@ const PostList = ({ token, user }) => {
     fetchData();
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+  };
+
+  const filteredPosts = posts.filter((post) => {
+    if (searchType === 'title') {
+      return post.title.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (searchType === 'location') {
+      return post.location.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (searchType === 'delivery') {
+      return post.willDeliver === willDeliver;
+    }
+    return true;
+  });
+
+  const handleMoreInfo = (postId) => {
+    navigate(`/posts/${postId}`);
+  };
+
   return (
-    <div className="post-list">
-      <MakePost token={token} />
-      {posts.map(post => (
-        <div key={post._id} className="post">
-          <h3>{post.title}</h3>
-          <p>Posted by: {post.author.username}</p>
-          <p>Location: {post.location}</p>
-          <p>Price: {post.price}</p>
-          <p>Description: {post.description}</p>
-          <p>Will Deliver: {post.willDeliver ? 'Yes' : 'No'}</p>
-          <p>Active: {post.active ? 'Yes' : 'No'}</p>
-          {user._id === post.author._id && (
+    <div className="posts">
+      <div className="search-container">
+        <form onSubmit={handleSearch}>
+          <select
+            value={searchType}
+            onChange={(e) => setSearchType(e.target.value)}
+          >
+            <option value="title">Title</option>
+            <option value="location">Location</option>
+            <option value="delivery">Delivery</option>
+          </select>
+
+          {searchType !== "delivery" ? (
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          ) : (
             <>
-              <UpdatePost currentPost={post} token={token} />
-              <DeletePost postId={post._id} token={token} />
+              <label>
+                <input
+                  type="radio"
+                  value="yes"
+                  checked={willDeliver}
+                  onChange={() => setWillDeliver(true)}
+                />
+                Yes
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="no"
+                  checked={!willDeliver}
+                  onChange={() => setWillDeliver(false)}
+                />
+                No
+              </label>
             </>
           )}
-          {user._id !== post.author._id && (
-            <SendMessage postId={post._id} token={token} />
-          )}
-          <div className="messages">
-            <h4>Messages:</h4>
-            {post.messages && post.messages.length > 0 ? (
-              post.messages.map((message) => (
-                <div key={message._id} className="message">
-                  <p>From: {message.fromUser.username}</p>
-                  <p>Content: {message.content}</p>
-                </div>
-              ))
-            ) : (
-              <p>No messages yet.</p>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div className="post-list">
+        {filteredPosts.map((post) => (
+          <div key={post._id} className="post">
+            <h3>{post.title}</h3>
+            <p>Price: {post.price}</p>
+            <p>Location: {post.location}</p>
+            <p>Will Deliver: {post.willDeliver ? "Yes" : "No"        
+            }</p>
+        <button onClick={() => handleMoreInfo(post._id)}>
+          More Information
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
+);
 };
 
-export default PostList;
+export default Posts;

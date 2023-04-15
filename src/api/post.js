@@ -10,6 +10,8 @@ export const fetchPosts = async () => {
       console.error(err);
     }
   }
+
+
   
   export const makePost = async (token, title, description, price, location, willDeliver) => {
     console.log(token, title, description, price, location, willDeliver)
@@ -83,3 +85,24 @@ export const fetchPosts = async () => {
       console.error(err);
     }
   }
+  export const postMessage = async (postId, content, token) => {
+    try {
+      const response = await fetch(`${BASE_URL}/posts/${postId}/messages`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message: {
+            content: content
+          }
+        })
+      });
+      const result = await response.json();
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  };

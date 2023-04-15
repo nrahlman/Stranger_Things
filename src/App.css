@@ -1,148 +1,61 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "boarder1 header boarder2"
+    "boarder1 navbar boarder2"
+    "boarder1 posters boarder2"
+    "boarder1 content boarder2"
+    "footer footer footer";
+  min-height: 100vh; /* 修改这里，使内容区域能够填满整个屏幕 */
 }
 
+.footer { grid-area: footer; }
 
-.post-list {
+.header {
+  display: grid;
+  grid-template-columns: 0.2fr 2.7fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "logo TITLE";
+  grid-area: header;
+}
+
+.logo { grid-area: logo; }
+.logo img { 
+  width: 150px;
+}
+
+.TITLE { grid-area: TITLE; 
+  font-size: 50px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-end;
+  color: #56847E;
+}
+.slogan{
+  font-size: 20px;
 }
 
-.post {
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  padding: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  margin-bottom: 1rem;
+.navbar { grid-area: navbar; }
+
+.posters { grid-area: posters; 
+  margin-top: 20px;
 }
 
-.post h3 {
-  margin-top: 0;
+.boarder1 { grid-area: boarder1; 
+  background-color: rgb(207, 223, 174);
+  margin-right: 150px;
 }
 
-.edit-post-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.boarder2 { grid-area: boarder2; 
+  background-color: rgb(207, 223, 174);
+  margin-left: 150px;
 }
 
-.edit-post-modal > button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-/* login form */
-.main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background-color: #240046;
-  max-height: 420px; /* Increased height */
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 7px 7px 10px 3px #24004628;
-  margin: 0 auto; /* Center the main div */
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 24px;
-  align-items: center; /* Added to center the elements */
-}
-
-
-#chk {
-  display: none;
-}
-
-.login {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.login label {
-  margin: 15% 0 5%; /* Adjusted margin to center the login label */
-}
-
-label {
-  color: #fff;
-  font-size: 2rem;
-  justify-content: center;
-  display: flex;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .5s ease-in-out;
-}
-
-.input {
-  width: 100%;
-  height: 40px;
-  background: #e0dede;
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-radius: 4px;
-}
-
-/*Register*/
-.register {
-  background: #eee;
-  border-radius: 60% / 10%;
-  transform: translateY(5%);
-  transition: .8s ease-in-out;
-}
-
-.register label {
-  color: #573b8a;
-  transform: scale(.6);
-}
-
-#chk:checked ~ .register {
-  transform: translateY(-60%);
-}
-
-#chk:checked ~ .register label {
-  transform: scale(1);
-  margin: 10% 0 5%;
-}
-
-#chk:checked ~ .login label {
-  transform: scale(.6);
-  margin: 5% 0 5%;
-}   
-/*Button*/
-.form button {
-  width: 85%;
-  height: 40px;
-  margin: 12px auto 10%;
-  color: #fff;
-  background: #573b8a;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: .2s ease-in;
-}
-
-.form button:hover {
-  background-color: #6d44b8;
-}
-.post-host{
-  font-size: small;
-}
+.content { grid-area: content; }
